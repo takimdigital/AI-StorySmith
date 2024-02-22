@@ -1,4 +1,5 @@
 # AI StorySmith: The Open Narrative Forge
+Generate stories with LLM,
 
 ## 📖 Overview
 
