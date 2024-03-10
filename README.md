@@ -21,7 +21,7 @@ This project was born from a simple tradition: crafting nightly stories for my s
 
 1. **Clone the repository**:
     ```
-    git clone https://github.com/yourgithubusername/ai-storysmith.git
+    git clone https://github.com/takimdigital/AI-StorySmith.git
     ```
 2. **Navigate to the project directory**:
     ```
