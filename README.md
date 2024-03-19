@@ -1,5 +1,5 @@
 # AI StorySmith: The Open Narrative Forge
-Generate stories with LLM,
+Generate an entire books using local LLM, ollama, Lmstudio etc.
 
 ## 📖 Overview
 
