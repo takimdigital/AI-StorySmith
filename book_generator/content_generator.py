@@ -19,11 +19,11 @@ class ContentGenerator:
         premise_prompt = [
             {
                 "role": "system",
-                "content": "Create a compelling premise for a story. The premise should include (1) a protagonist described with an adjective and a noun, (2) their primary goal, (3) the central situation or crisis they face, and (4) a unique element or 'special sauce' that sets the story apart. This unique element could be a fresh perspective, a distinctive character voice, or an intriguing take on current events. Ensure the premise is concise yet captures the essence of the story idea and tone."
+                "content": "You are a master storyteller and narrative designer. Your task is to forge a compelling premise from a core idea. A strong premise must include: (1) a protagonist defined by a compelling adjective and role, (2) their specific, tangible goal, (3) the primary obstacle or crisis they face, and (4) a unique element or 'hook' that makes the story stand out. The premise must be concise, impactful, and clearly reflect the specified tone."
             },
             {
                 "role": "user",
-                "content": f"Generate a premise that includes the required elements to outline the story's foundation, based on the story idea '{story_idea}' and the tone '{tone}'."
+                "content": f"Analyze the following story idea and distill it into a powerful premise. Ensure all four required elements are present. Story Idea: '{story_idea}'. Tone: '{tone}'."
             }
         ]
         return self.generate_content(premise_prompt, 'premise.txt')
@@ -32,11 +32,11 @@ class ContentGenerator:
         title_prompt = [
             {
                 "role": "system",
-                "content": "You are an expert in crafting intriguing titles for stories. Please provide the title in the format: Title: <title_placeholder>. you only output the title."
+                "content": "You are a renowned book editor with a knack for creating bestselling titles. Your task is to generate a single, powerful title for a book. The title must be evocative, genre-appropriate, and memorable. It should encapsulate the core essence of the premise and tone. Your output must be only the title, formatted as: Title: <Your Title>"
             },
             {
                 "role": "user",
-                "content": f"Write 1 perfect title for the book using the format Title: <title_placeholder>. based on the Given premise:\n\n '{premise}'.\n\n the story idea : \n'{story_idea}'.\ntone: '{tone}'."
+                "content": f"Based on the following premise, story idea, and tone, craft the perfect title. Premise:\n\n'{premise}'.\n\nStory Idea:\n'{story_idea}'.\nTone: '{tone}'."
             }
         ]
         return self.generate_content(title_prompt, 'title.txt')
@@ -45,11 +45,11 @@ class ContentGenerator:
         toc_prompt = [
             {
                 "role": "system",
-                "content": f"You are tasked with generating a table of contents for {num_chapters} chapters. An excellent table of contents provides clear, concise, and descriptive chapter titles that give readers a glimpse of the chapter's content while invoking curiosity. The titles should be consistent in tone and style, and they should align with the overarching theme of the story."
+                "content": f"You are a developmental editor, skilled in structuring compelling narratives. Your task is to create a table of contents for a {num_chapters}-chapter book. The chapter titles must illustrate a clear narrative arc, showing progression from an inciting incident through rising action to a climax and resolution. Each title should be concise, intriguing, and consistent with the story's overall tone."
             },
             {
                 "role": "user",
-                "content": f"Please follow the format: Table of Content: Chapter 1: <Title>, Chapter 2: <Title>, ... up to {num_chapters} chapters. Generate this table based on the premise '{premise}', the story idea '{story_idea}', and the tone '{tone}'."
+                "content": f"Generate a table of contents with {num_chapters} chapter titles. The structure should follow a logical narrative progression. Use the standard format: Table of Content: Chapter 1: <Title>, Chapter 2: <Title>, ...\n\nPremise: '{premise}'\nStory Idea: '{story_idea}'\nTone: '{tone}'."
             }
         ]
         return self.generate_content(toc_prompt, 'toc.txt')
@@ -58,11 +58,12 @@ class ContentGenerator:
         content_types_prompt = [
             {
                 "role": "system",
-                "content": ("You're tasked with enriching an existing table of contents by adding a brief content type description next to each chapter title. Your additions should provide insights into the key events or themes of each chapter without changing the original titles. Use the format: [Original Chapter Title] - [Content Type]. Focus on incorporating content types that reflect significant plot events, character development, and thematic elements, ensuring they align with the story's tone of '" + tone + "'. Be concise and avoid modifying the chapter titles.")
+                "content": ("You are a story analyst, expert at deconstructing narratives into their core components. Your task is to assign a key narrative event (e.g., 'Inciting Incident', 'Rising Action', 'Midpoint', 'Climax', 'Resolution') to each chapter title in the provided table of contents. This will serve as a structural backbone for the story. Use the format: [Original Chapter Title] - [Narrative Event]. Ensure your assignments create a coherent and compelling story structure that matches the specified tone."
+                )
             },
             {
                 "role": "user",
-                "content": f"Below is the table of contents for a story based on the idea '{story_idea}', with a premise '{premise}', and a desired tone of '{tone}'. For each chapter, add a content type description next to the original title using the specified format. Ensure your additions enhance understanding of the chapter's focus without altering the titles.\n\n{toc}"
+                "content": f"Analyze the table of contents below. For each chapter, append a key narrative event that reflects its role in the story's structure. Adhere to the specified format. The story is based on the premise '{premise}' and has a '{tone}' tone.\n\n{toc}"
             }
         ]
 
@@ -73,11 +74,12 @@ class ContentGenerator:
         refine_prompt = [
             {
                 "role": "system",
-                "content": ("Refine the initial content types to ensure a coherent narrative and depth. Focus on a logical sequence of events, natural character development, seamless integration of background information, and avoidance of unnecessary details. Maintain consistency with the tone: '" + tone + "'. Use bullet points or succinct phrases for clarity.")
+                "content": ("You are a senior narrative editor, refining a story's structure for maximum impact. Your task is to expand upon the initial chapter content types by adding specific key events and character beats for each chapter. For each chapter, list the critical plot points and character development moments that must occur. Use concise bullet points. This detailed outline must be consistent with the story's premise and tone."
+                )
             },
             {
                 "role": "user",
-                "content": "Given the initial content types:\n\n" + content_types + "\n\nand the premise '" + premise + "', refine and deepen the details for each chapter, using bullet points or succinct phrases. Adhere to the instructions."
+                "content": "Given the initial content types:\n\n" + content_types + "\n\nand the premise '" + premise + "', provide a detailed breakdown of key events and character beats for each chapter. Use bullet points for clarity. The tone is '" + tone + "'."
             }
         ]
         return self.generate_content(refine_prompt, 'refined_content_types.txt')
@@ -86,11 +88,12 @@ class ContentGenerator:
         deepen_prompt = [
             {
                 "role": "system",
-                "content": ("Elevate the narrative by enriching the refined content types. Focus on expanding crucial plot points, introducing nuanced character dynamics, building tension and conflicts, and smoothly leading towards the climax and resolution. Ensure the details added are pertinent and impactful, and keep everything aligned with the tone: '" + tone + "'. Depth should add to the story's richness without becoming verbose. Maintain the format provided and enhance each chapter's narrative comprehensively.")
+                "content": ("You are a world-class ghostwriter, transforming a detailed outline into a rich narrative summary. Your task is to synthesize the refined content types into a single, cohesive narrative. This text should read like a detailed summary or treatment of the entire story, flowing logically from one chapter's events to the next. This is not the final prose, but a comprehensive blueprint for it. Ensure the narrative is engaging and maintains the specified tone throughout."
+                )
             },
             {
                 "role": "user",
-                "content": "Expand the narrative for each chapter using the refined content types:\n\n" + refined_content_types + "\n\nConsider the premise '" + premise + "' and the tone '" + tone + "' as you develop the story further. Add depth and detail to each chapter, following the guidelines above."
+                "content": "Expand the following chapter-by-chapter breakdown into a single, continuous narrative summary. The summary must be detailed, coherent, and true to the premise and tone.\n\nRefined Content Types:\n" + refined_content_types + "\n\nPremise: '" + premise + "'\nTone: '" + tone + "'."
             }
         ]
         return self.generate_content(deepen_prompt, 'deepened_narrative.txt')
@@ -126,11 +129,11 @@ class ContentGenerator:
         outline_prompt = [
             {
                 "role": "system",
-                "content": "Outline the key events in Chapter 1 using a concise timeline outtline events . Focus on pivotal moments that introduce characters, setting, and the initial conflict. Keep descriptions brief and to the point."
+                "content": "You are a meticulous outliner, skilled at creating a detailed scene-by-scene roadmap for a story. Your task is to analyze the provided chapter summary and break it down into a concise, timeline-style outline. Focus on pivotal moments, character actions, and key dialogue. Each point should be a clear, actionable event."
             },
             {
                 "role": "user",
-                "content": f"Chapter 1 content:\n\n{chapter_content}\n\nGenerate a concise outtline events that includes:\n\n- Event: Description (1-2 sentences)\n- Character introduction and development\n- Initial conflict introduction\n- Setting introduction\n\nEnsure clarity and brevity in each point."
+                "content": f"Based on the following chapter summary, generate a concise, timeline-style outline of key events.\n\nChapter 1 Summary:\n\n{chapter_content}\n\nEnsure clarity and brevity in each point."
             }
         ]
         return self.generate_content(outline_prompt, 'outline_chapter_1.txt')
@@ -142,11 +145,11 @@ class ContentGenerator:
             outline_prompt = [
                 {
                     "role": "system",
-                    "content": f"Create a concise timeline outline story only for for Chapter {i}, detailing how it progresses the story. Highlight new events, character arcs, and conflicts, ensuring no repetition from previous chapters."
+                    "content": f"You are a meticulous outliner, continuing the scene-by-scene roadmap for a story. Your task is to create a concise timeline outline for Chapter {i}. It must logically follow the previous chapter's outline, highlighting new events, character developments, and escalating conflicts. Do not repeat events from the previous outline."
                 },
                 {
                     "role": "user",
-                    "content": f"Given Chapter {i}'s content:\n\n{chapter_content_N}\n\nCraft a focused timeline  outline events  covering:\n\n- Major events with brief descriptions\n- Character developments\n- New conflicts or escalations\n- Integration of themes\n\nReference from previous chapter's outline:\n\n{previous_chapter_outline}\n\nAim for succinctness and specificity."
+                    "content": f"Given the summary for Chapter {i}:\n\n{chapter_content_N}\n\nAnd the outline for the previous chapter:\n\n{previous_chapter_outline}\n\nCraft a focused timeline of events for Chapter {i}. Aim for succinctness and specificity."
                 }
             ]
             self.generate_content(outline_prompt, f'outline_chapter_{i}.txt')
@@ -156,27 +159,29 @@ class ContentGenerator:
         prompt = [
             {
                 "role": "system",
-                "content": f"As an expert narrative writer, you are tasked with crafting the opening chapter of a novel. This chapter must embody a {tone} tone, capturing the essence of the story's beginning as outlined. Your objective is to transform the provided chapter outline into engaging and coherent narrative prose. Focus on developing the scenes, actions, dialogues, and character emotions detailed in the outline, ensuring a rich and immersive reading experience. The final output should present a seamless narrative that adheres closely to the outline, emphasizing storytelling over conversation or extraneous details."
+                "content": f"You are a master prose stylist and fiction author. Your task is to write the full text of an opening chapter from a detailed outline. Embody the specified '{tone}' tone in every sentence. Focus on vivid descriptions, compelling character voice, and engaging pacing. Your writing should 'show, don't tell,' immersing the reader in the world. The final output must be only the narrative prose of the chapter, without any additional commentary."
             },
             {
                 "role": "user",
-                "content": f"Based on the outline provided below, write a detailed narrative for Chapter 1. The narrative should vividly bring the outline to life, aligning closely with both the story's premise and the specified {tone} tone. Your narrative should include only the story content as informed by the outline, without deviating into unrelated discussions or dialogue with the reader.\n\nOutline for Chapter 1:\n\n{outline}\n\n."
+                "content": f"From the outline below, write the full narrative for Chapter 1. The prose must be engaging, adhere to the '{tone}' tone, and bring the outlined events to life.\n\nOutline for Chapter 1:\n\n{outline}"
             }
         ]
         return self.generate_content(prompt, 'chapter_01.txt')
+
 
     def generate_remaining_chapters(self, num_chapters, tone):
         chapters = []
         for i in range(2, num_chapters + 1):
             outline = load_from_file(self.base_dir, f'outline_chapter_{i}.txt')
+
             prompt = [
                 {
                     "role": "system",
-                    "content": f"As a skilled narrative writer, your task is to write Chapter {i} of a novel, ensuring it is infused with a {tone} tone. This chapter must seamlessly continue the story from the previous chapters, based solely on the provided outline. Your goal is to craft a narrative that is engaging, coherent, and true to the story's established direction. Focus on narrative development - including scenes, character dynamics, and plot progression - as indicated in the outline. Ensure the narrative is self-contained and consistent with the story's overarching themes and character arcs."
+                    "content": f"You are a master prose stylist and fiction author, continuing a novel. Your task is to write Chapter {i} from its outline, ensuring it maintains the established '{tone}' tone and seamlessly continues the narrative from the previous chapter. Focus on vivid descriptions, consistent character voice, and compelling pacing. The output must be only the narrative prose."
                 },
                 {
                     "role": "user",
-                    "content": f"Using the outline for Chapter {i} below, craft a detailed narrative that effectively continues the story. This narrative should adhere to the specified {tone} tone and align with the overarching story arc, without assuming additional context not present in the outline. Ensure the chapter contributes meaningfully to the narrative progression and character development outlined thus far.\n\nOutline for Chapter {i}:\n\n{outline}\n\n."
+                    "content": f"From the outline below, write the full narrative for Chapter {i}. The prose must be engaging, adhere to the '{tone}' tone, and logically follow the events of the preceding chapters.\n\nOutline for Chapter {i}:\n\n{outline}"
                 }
             ]
             chapter_content = self.generate_content(prompt, f'chapter_{i:02d}.txt')

@@ -26,11 +26,11 @@ class UserInteraction:
         prompt_content = [
             {
                 "role": "system",
-                "content": "You are a meticulous revision specialist, skilled in refining content based on feedback. Your primary goal is to enhance the original content while preserving its core essence. It's crucial to avoid chatbot-like behavior and only focus on the task of revision."
+                "content": "You are a senior editor, renowned for your ability to respectfully and effectively implement author feedback. Your task is to revise a piece of creative work based on specific notes. You must interpret the author's intent and execute the revision flawlessly, enhancing the original content while strictly adhering to the provided feedback. Your output should be only the revised text, without any introductory or concluding remarks."
             },
             {
                 "role": "user",
-                "content": f"Given the detailed feedback: '{feedback}', and the context: '{context}', adeptly refine the following content without straying from the feedback's intent: '{original_content}'. Ensure the revised content is clear and concise without any additional commentary."
+                "content": f"Please revise the following content based on the user's feedback. \n\nOriginal Content:\n'{original_content}'\n\nUser Feedback:\n'{feedback}'\n\nContext:\n'{context}'. \n\nExecute the revision with precision and care."
             }
         ]
 
