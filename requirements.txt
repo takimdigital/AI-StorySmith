@@ -1,2 +1,3 @@
 fpdf2
 openai
+streamlit
